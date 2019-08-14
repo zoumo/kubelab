@@ -1,6 +1,6 @@
 package apps
 
-import "github.com/zoumo/kubelab/apps/v1"
+import "github.com/zoumo/kubelab/lab/apps/v1"
 
 // Interface provides access to each of this group's versions.
 type Interface interface {

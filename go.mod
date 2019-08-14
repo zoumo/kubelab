@@ -12,7 +12,7 @@ require (
 	github.com/opencontainers/go-digest v0.0.0-20170106003457-a6d0ee40d420 // indirect
 	github.com/sirupsen/logrus v1.4.2 // indirect
 	golang.org/x/sys v0.0.0-20190726091711-fc99dfbffb4e // indirect
-	k8s.io/api v0.0.0-20190726022912-69e1bce1dad5
+	k8s.io/api v0.0.0-20181126151915-b503174bad59
 	k8s.io/apiextensions-apiserver v0.0.0-20181126155829-0cd23ebeb688 // indirect
 	k8s.io/apimachinery v0.0.0-20190726022757-641a75999153
 	k8s.io/apiserver v0.0.0-20181126153457-92fdef3a232a // indirect

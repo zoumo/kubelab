@@ -1,6 +1,6 @@
-package kubelab
+package lab
 
-import "github.com/zoumo/kubelab/apps"
+import "github.com/zoumo/kubelab/lab/apps"
 
 // Interface provides useful utils for resources in all known API group versions
 type Interface interface {

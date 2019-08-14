@@ -1,7 +1,7 @@
 package v1
 
 import (
-	"k8s.io/api/core/v1"
+	corev1 "k8s.io/api/core/v1"
 	"k8s.io/kubernetes/pkg/api/legacyscheme"
 	k8spodutil "k8s.io/kubernetes/pkg/api/pod"
 	k8score "k8s.io/kubernetes/pkg/apis/core"
@@ -12,7 +12,7 @@ var (
 )
 
 type PodLab interface {
-	DropDisabledAlphaFields(in *v1.PodSpec)
+	DropDisabledAlphaFields(in *corev1.PodSpec)
 }
 
 type podImpl struct{}
@@ -21,7 +21,7 @@ type podImpl struct{}
 // This should be called from PrepareForCreate/PrepareForUpdate for all resources containing a pod spec.
 //
 // TODO: the feature in utilfeature.DefaultFeatureGate must be the same as apiserver
-func (l *podImpl) DropDisabledAlphaFields(in *v1.PodSpec) {
+func (l *podImpl) DropDisabledAlphaFields(in *corev1.PodSpec) {
 	out := &k8score.PodSpec{}
 	legacyscheme.Scheme.Convert(in, out, nil)
 	// drop disabled alpha fields in podSpec

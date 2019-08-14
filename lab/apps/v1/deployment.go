@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/InVisionApp/conjungo"
-	libcorev1 "github.com/zoumo/kubelab/core/v1"
-	libmetav1 "github.com/zoumo/kubelab/meta/v1"
-	"github.com/mattbaird/jsonpatch"
+	libcorev1 "github.com/zoumo/kubelab/lab/core/v1"
+	libmetav1 "github.com/zoumo/kubelab/lab/meta/v1"
 
-	"k8s.io/api/apps/v1"
+	"github.com/InVisionApp/conjungo"
+	"github.com/mattbaird/jsonpatch"
+	appsv1 "k8s.io/api/apps/v1"
 	"k8s.io/klog"
 	k8sappsv1 "k8s.io/kubernetes/pkg/apis/apps/v1"
 )
@@ -21,17 +21,17 @@ type DeploymentLab interface {
 	// - ObjectMeta.Labels
 	// - ObjectMeta.Annotations
 	// - Spec
-	Merge(dst, src *v1.Deployment) error
+	Merge(dst, src *appsv1.Deployment) error
 	// IsEqual checks if the given two deployments are equal
 	//
 	// If ignoreFields is provided, the function will be call on each
 	// deployment's deepcopy(be free to mutate it) before comparing to
 	// ignore specified fields.
 	// You can mutate object in the function like:
-	// func (in *v1.Deployment) {
+	// func (in *appsv1.Deployment) {
 	//    in.Spec.Replicas = nil
 	// }
-	IsEqual(a, b *v1.Deployment, ignoreFields func(*v1.Deployment)) bool
+	IsEqual(a, b *appsv1.Deployment, ignoreFields func(*appsv1.Deployment)) bool
 }
 
 func newOptions() *conjungo.Options {
@@ -60,7 +60,7 @@ func newOptions() *conjungo.Options {
 
 type deploymentImpl struct{}
 
-func (l *deploymentImpl) Merge(dst, src *v1.Deployment) error {
+func (l *deploymentImpl) Merge(dst, src *appsv1.Deployment) error {
 	setObjectDefaultsDeployments(src)
 	libmetav1.DefaultObjectMetaLab.Merge(&dst.ObjectMeta, &src.ObjectMeta)
 	// merge spec
@@ -71,7 +71,7 @@ func (l *deploymentImpl) Merge(dst, src *v1.Deployment) error {
 	return nil
 }
 
-func (l *deploymentImpl) IsEqual(a, b *v1.Deployment, ignoreFields func(*v1.Deployment)) bool {
+func (l *deploymentImpl) IsEqual(a, b *appsv1.Deployment, ignoreFields func(*appsv1.Deployment)) bool {
 	acopy := a.DeepCopy()
 	bcopy := b.DeepCopy()
 
@@ -103,7 +103,7 @@ func (l *deploymentImpl) IsEqual(a, b *v1.Deployment, ignoreFields func(*v1.Depl
 	return true
 }
 
-func setObjectDefaultsDeployments(in *v1.Deployment) {
+func setObjectDefaultsDeployments(in *appsv1.Deployment) {
 	k8sappsv1.SetObjectDefaults_Deployment(in)
 	libcorev1.DefaultPodLab.DropDisabledAlphaFields(&in.Spec.Template.Spec)
 }

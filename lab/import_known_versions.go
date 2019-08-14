@@ -1,4 +1,4 @@
-package kubelab
+package lab
 
 // These imports are the API groups the client will support.
 import (
